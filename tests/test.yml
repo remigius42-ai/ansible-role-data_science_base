@@ -2,4 +2,4 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - data_science_base
+    - ansible-role-data_science_base
