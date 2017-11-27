@@ -1,0 +1,52 @@
+---
+- name: Add Anaconda to sudoers path
+  become: yes
+  lineinfile:
+    path: /etc/sudoers
+    regexp: 'secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"'
+    backrefs: yes
+    line: 'Defaults	secure_path="/usr/local/anaconda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"'
+    validate: '/usr/sbin/visudo -cf %s'
+  when: data_science_base_anaconda_make_sys_default
+
+- name: Install dependencies of Spyder
+  become: yes
+  apt:
+    name: python3-pyqt5
+
+- name: Install spyder notebook
+  become: yes
+  shell: conda install spyder-notebook -c spyder-ide
+
+- name: Install nbdime for jupyter
+  become: yes
+  pip:
+    name: nbdime
+
+- name: Install jupyter_contrib_nbextensions for pep8 and spell checking
+  become: yes
+  shell: conda install -c conda-forge -y jupyter_contrib_nbextensions
+
+- name: Install autopep8 for pep8 checking with jupyter_contrib_nbextensions
+  become: yes
+  pip:
+    name: autopep8
+
+- name: Install keras
+  become: yes
+  shell: conda install -y keras
+
+#- name: Install sklearn_pandas
+#  become: yes
+#  pip:
+#    name: sklearn-pandas
+  
+- name: Install Graphviz binaries
+  become: yes
+  apt:
+    name: graphviz
+    
+- name: Install Graphviz python bindings
+  become: yes
+  pip:
+    name: graphviz
