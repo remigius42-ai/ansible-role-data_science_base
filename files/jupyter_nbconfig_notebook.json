@@ -1,0 +1,10 @@
+{
+    "load_extensions": {
+	"jupyter-js-widgets/extension": true,
+	"nbextensions_configurator/config_menu/main": true,
+	"contrib_nbextensions_help_item/main": true,
+	"code_prettify/autopep8": true,
+	"comment-uncomment/main": true
+    },
+    "comment_uncomment_keybinding": "ctrl-7"
+}

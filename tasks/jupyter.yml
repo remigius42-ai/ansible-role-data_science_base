@@ -1,0 +1,52 @@
+---
+- name: Generate Jupyter config
+  command: '{{ anaconda_bin_path }}/jupyter notebook --generate-config'
+  args:
+    creates: '{{ ansible_env.HOME }}/.jupyter/jupyter_notebook_config.py'
+
+- name: Allow external hosts on Jupyter
+  lineinfile:
+    path: '{{ ansible_env.HOME }}/.jupyter/jupyter_notebook_config.py'
+    regexp: '#c\.NotebookApp\.ip = ''localhost'''
+    backrefs: yes
+    line: 'c.NotebookApp.ip = ''0.0.0.0'''
+    backup: yes
+
+- name: Install jupyter_contrib_nbextensions for pep8 and spell checking
+  become: yes
+  shell: conda install -c conda-forge -y jupyter_contrib_nbextensions
+
+- name: Install autopep8 for pep8 checking with jupyter_contrib_nbextensions
+  become: yes
+  pip:
+    name: autopep8
+
+- name: Ensure configuration directory for jupyter_contrib_nbextensions exists
+  file:
+    path: '{{ ansible_env.HOME }}/.jupyter/nbconfig'
+    state: directory
+    mode: 0755
+    
+- name: Configure jupyter_contrib_nbextensions
+  copy:
+    src: files/jupyter_nbconfig_notebook.json
+    dest: '{{ ansible_env.HOME }}/.jupyter/nbconfig/notebook.json'
+
+- name: Copy jupyter save hooks
+  copy:
+    src: files/jupyter_save_hooks.py
+    dest: '{{ ansible_env.HOME }}/.jupyter/'
+
+- name: Enable jupyter save hooks
+  lineinfile:
+    path: '{{ ansible_env.HOME }}/.jupyter/jupyter_notebook_config.py'
+    line: 'import jupyter_save_hooks.py\nc.FileContentsManager.pre_save_hook = jupyter_save_hooks.pre_save_hook'
+  
+- name: Install nbdime for diff and merge of notebooks
+  become: yes
+  pip:
+    name: nbdime
+
+- name: Activate nbdime system-wide
+  become: yes
+  shell: nbdime config-git --enable --system
