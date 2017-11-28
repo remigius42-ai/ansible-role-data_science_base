@@ -30,5 +30,5 @@ def scrub_output_and_execution_count(model, **kwargs):
         cell['execution_count'] = None
 
 
-def pre_save_hook(model, **kwargs):
+def jupyter_pre_save_hook(model, **kwargs):
     scrub_output_and_execution_count(model, **kwargs)
