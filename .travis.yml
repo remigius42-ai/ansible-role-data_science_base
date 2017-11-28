@@ -10,7 +10,7 @@ os:
 
 matrix:
   include:
-    - language: python
+    - language: generic
       os: osx
       before_install:
         - brew update
