@@ -33,15 +33,20 @@
     dest: '{{ ansible_env.HOME }}/.jupyter/nbconfig/notebook.json'
 
 - name: Copy jupyter save hooks
-  copy:
-    src: files/jupyter_save_hooks.py
-    dest: '{{ ansible_env.HOME }}/.jupyter/'
-
-- name: Enable jupyter save hooks
-  lineinfile:
+  blockinfile:
     path: '{{ ansible_env.HOME }}/.jupyter/jupyter_notebook_config.py'
-    line: 'import jupyter_save_hooks.py\nc.FileContentsManager.pre_save_hook = jupyter_save_hooks.pre_save_hook'
-  
+    block: |
+      {{ lookup('file', 'files/jupyter_save_hooks.py') }}
+
+      c.FileContentsManager.pre_save_hook = jupyter_pre_save_hook
+
+# - name: Enable jupyter save hooks
+#   blockinfile:
+#     path: '{{ ansible_env.HOME }}/.jupyter/jupyter_notebook_config.py'
+#     block: |
+#       import jupyter_save_hooks.py
+#       c.FileContentsManager.pre_save_hook = jupyter_save_hooks.pre_save_hook
+
 - name: Install nbdime for diff and merge of notebooks
   become: yes
   pip:
