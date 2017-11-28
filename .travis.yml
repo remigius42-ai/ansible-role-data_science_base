@@ -9,6 +9,14 @@ os:
   - linux
   - osx
 
+matrix:
+  include:
+    - language: python
+      os: osx
+      before_install:
+        - brew update
+        - brew install python
+
 # Install ansible
 addons:
   apt:
