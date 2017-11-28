@@ -55,3 +55,7 @@
 - name: Activate nbdime system-wide
   become: yes
   shell: nbdime config-git --enable --system
+
+- name: Install RISE for live Jupyter notebook presentations
+  become: yes
+  shell: '{{ anaconda_bin_path }}/conda install -c damianavila82 -y rise'
