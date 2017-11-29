@@ -35,7 +35,10 @@ script:
   # Basic role syntax check
   - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
   # Install role
-  - ansible-playbook tests/test.yml -i tests/inventory
+  # Dirty hack to patch issue in anaconda role: ansible_system evaluates to Darwin
+  #   instead of MacOSX and is overridden with --extra-vars to match the installer name.
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then vars_patch="--extra-vars='ansible_system=MacOSX'"; else vars_patch=""; fi
+  - ansible-playbook tests/test.yml -i tests/inventory $vars_patch
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
