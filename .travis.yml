@@ -32,12 +32,15 @@ install:
   - ansible-galaxy install --roles-path ../ andrewrothstein.anaconda
 
 script:
+  # enable command output
+  - set -x
   # Basic role syntax check
   - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
   # Install role
   # Dirty hack to patch issue in anaconda role: ansible_system evaluates to Darwin
   #   instead of MacOSX and is overridden with --extra-vars to match the installer name.
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then vars_patch="--extra-vars='ansible_system=MacOSX'"; else vars_patch=""; fi
+  - echo "vars_patch: $vars_patch"
   - ansible-playbook tests/test.yml -i tests/inventory $vars_patch
 
 notifications:
