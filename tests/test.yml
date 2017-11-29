@@ -5,9 +5,10 @@
     - name: Show value of ansible_system
       debug:
         msg: 'ansible_system: {{ ansible_system }}'
-    - name: Try fact override
+    - name: Try fact override when ansible_system is Darwin
       set_fact:
         ansible_system: MacOSX
+      when: ansible_system == 'Darwin'
     - name: Show value of ansible_system after fact override attempt
       debug:
         msg: 'ansible_system: {{ ansible_system }}'
