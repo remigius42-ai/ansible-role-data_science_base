@@ -1,5 +1,15 @@
 ---
 - hosts: localhost
   remote_user: root
+  pre_tasks:
+    - name: Show value of ansible_system
+      debug:
+        msg: 'ansible_system: {{ ansible_system }}'
+    - name: Try fact override
+      set_fact:
+        ansible_system: MacOSX
+    - name: Show value of ansible_system after fact override attempt
+      debug:
+        msg: 'ansible_system: {{ ansible_system }}'
   roles:
     - ansible-role-data_science_base
