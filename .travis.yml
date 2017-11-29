@@ -7,8 +7,10 @@ matrix:
   include:
     - os: linux
       python: "2.7"
+      env: PATCH_ANSIBLE_SYSTEM_FOR_OS_X=
     - os: osx
       language: generic
+      env: PATCH_ANSIBLE_SYSTEM_FOR_OS_X=--extra-vars='ansible_system=MacOSX'
 
 # Install Python and pip
 before_install:
@@ -32,16 +34,13 @@ install:
   - ansible-galaxy install --roles-path ../ andrewrothstein.anaconda
 
 script:
-  # enable command output
-  - set -x
   # Basic role syntax check
   - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
   # Install role
   # Dirty hack to patch issue in anaconda role: ansible_system evaluates to Darwin
   #   instead of MacOSX and is overridden with --extra-vars to match the installer name.
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then vars_patch="--extra-vars='ansible_system=MacOSX'"; else vars_patch=""; fi
-  - echo "vars_patch: $vars_patch"
-  - ansible-playbook tests/test.yml -i tests/inventory $vars_patch
+  - echo $PATCH_ANSIBLE_SYSTEM_FOR_OS_X
+  - ansible-playbook tests/test.yml -i tests/inventory $PATCH_ANSIBLE_SYSTEM_FOR_OS_X
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
