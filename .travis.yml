@@ -1,26 +1,22 @@
 ---
 language: python
-python: "2.7"
 
-# Use the new container infrastructure
 sudo: required
-
-os:
-  - linux
 
 matrix:
   include:
-    - language: generic
-      os: osx
-      before_install:
-        - brew update
-        - brew install python
+    - os: linux
+      python: "2.7"
+    - os: osx
+      language: generic
 
-# Install ansible
-addons:
-  apt:
-    packages:
-    - python-pip
+# Install Python and pip
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then virtualenv venv -p python; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then source venv/bin/activate; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qq python-pip; fi
 
 install:
   # Install ansible
