@@ -10,7 +10,7 @@ matrix:
       env: PATCH_ANSIBLE_SYSTEM_FOR_OS_X=
     - os: osx
       language: generic
-      env: PATCH_ANSIBLE_SYSTEM_FOR_OS_X=--extra-vars='ansible_system=MacOSX'
+      env: PATCH_ANSIBLE_SYSTEM_FOR_OS_X="--extra-vars='ansible_system=MacOSX'"
 
 # Install Python and pip
 before_install:
