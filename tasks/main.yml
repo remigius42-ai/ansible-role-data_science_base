@@ -9,10 +9,17 @@
     validate: '/usr/sbin/visudo -cf %s'
   when: data_science_base_anaconda_make_sys_default
 
-- name: Install dependencies of Spyder
+- name: Install dependencies of Spyder on Debians
   become: yes
   apt:
     name: python3-pyqt5
+  when: ansible_os_family == 'Debian'
+
+- name: Install dependencies of Spyder on OS X
+  become: yes
+  homebrew:
+    name: python3-pyqt5
+  when: ansible_os_family == 'Darwin'
 
 - name: Install spyder notebook
   become: yes
@@ -27,11 +34,18 @@
 #  pip:
 #    name: sklearn-pandas
   
-- name: Install Graphviz binaries
+- name: Install Graphviz binaries for Debians
   become: yes
   apt:
     name: graphviz
-    
+  when: ansible_os_family == 'Debian'
+
+- name: Install Graphviz binaries for OS X
+  become: yes
+  homebrew:
+    name: graphviz
+  when: ansible_os_family == 'Darwin'
+
 - name: Install Graphviz python bindings
   become: yes
   pip:
