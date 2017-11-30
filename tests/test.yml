@@ -4,7 +4,7 @@
   pre_tasks:
     - name: Show value of ansible_system
       debug:
-        msg: 'ansible_system: {{ ansible_system }}'
+        msg: 'ansible_system: {{ ansible_system }} / ansible_distribution: {{ ansible_distribution }} / fam: {{ ansible_os_family }}'
     - name: Try fact override when ansible_system is Darwin
       set_fact:
         ansible_system: MacOSX
