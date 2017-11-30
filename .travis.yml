@@ -7,10 +7,10 @@ matrix:
   include:
     - os: linux
       python: "2.7"
-      env: PATCH_ANSIBLE_SYSTEM_FOR_OS_X=
+      env: PATCH_ANSIBLE_SYSTEM_FOR_OS_X="--extra-vars={\"data_science_base_anaconda_make_sys_default\":false}"
     - os: osx
       language: generic
-      env: PATCH_ANSIBLE_SYSTEM_FOR_OS_X="--extra-vars='{\"ansible_system\":\"MacOSX\",\"data_science_base_anaconda_make_sys_default\":false}'"
+      env: PATCH_ANSIBLE_SYSTEM_FOR_OS_X="--extra-vars={\"ansible_system\":\"MacOSX\",\"data_science_base_anaconda_make_sys_default\":false}"
 
 # Install Python and pip
 before_install:
