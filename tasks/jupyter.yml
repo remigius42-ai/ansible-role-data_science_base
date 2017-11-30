@@ -14,7 +14,7 @@
 
 - name: Install jupyter_contrib_nbextensions for pep8 and spell checking
   become: yes
-  shell: conda install -c conda-forge -y jupyter_contrib_nbextensions
+  shell: '{{ anaconda_bin_path }}/conda install -c conda-forge -y jupyter_contrib_nbextensions'
 
 - name: Install autopep8 for pep8 checking with jupyter_contrib_nbextensions
   become: yes
