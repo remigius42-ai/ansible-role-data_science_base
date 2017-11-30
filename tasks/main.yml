@@ -16,7 +16,6 @@
   when: ansible_os_family == 'Debian'
 
 - name: Install dependencies of Spyder on OS X
-  become: yes
   homebrew:
     name: python3-pyqt5
   when: ansible_os_family == 'Darwin'
@@ -41,7 +40,6 @@
   when: ansible_os_family == 'Debian'
 
 - name: Install Graphviz binaries for OS X
-  become: yes
   homebrew:
     name: graphviz
   when: ansible_os_family == 'Darwin'
