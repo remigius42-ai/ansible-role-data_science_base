@@ -22,11 +22,11 @@
 
 - name: Install spyder notebook
   become: yes
-  shell: conda install spyder-notebook -c spyder-ide
+  command: '{{anaconda_link_dir}}/bin/conda install spyder-notebook -c spyder-ide'
 
 - name: Install keras
   become: yes
-  shell: conda install -y keras
+  command: '{{anaconda_link_dir}}/bin/conda install -y keras'
 
 #- name: Install sklearn_pandas
 #  become: yes
@@ -52,4 +52,4 @@
 - name: Configure Jupyter
   import_tasks: jupyter.yml
   vars:
-    - anaconda_bin_path: '{{ anaconda_install_dir }}/bin'
+    - anaconda_bin_path: '{{ anaconda_link_dir }}/bin'
