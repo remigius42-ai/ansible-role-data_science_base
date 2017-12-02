@@ -1,4 +1,10 @@
 ---
+- name: Load OS dependent variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - '{{ ansible_os_family }}.yml'
+    - 'default.yml'
+
 - name: Add Anaconda to sudoers path
   become: yes
   lineinfile:
@@ -34,7 +40,7 @@
 #    name: sklearn-pandas
   
 - name: Install Graphviz binaries
-  become: yes
+  become: data_science_base_os_dependent_package_become
   package:
     name: graphviz
 
