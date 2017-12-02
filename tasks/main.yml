@@ -33,16 +33,10 @@
 #  pip:
 #    name: sklearn-pandas
   
-- name: Install Graphviz binaries for Debians
+- name: Install Graphviz binaries
   become: yes
-  apt:
+  package:
     name: graphviz
-  when: ansible_os_family == 'Debian'
-
-- name: Install Graphviz binaries for OS X
-  homebrew:
-    name: graphviz
-  when: ansible_os_family == 'Darwin'
 
 - name: Install Graphviz python bindings
   become: yes
