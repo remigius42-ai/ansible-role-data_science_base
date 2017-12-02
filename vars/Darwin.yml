@@ -1,2 +1,3 @@
 ---
 data_science_base_os_dependent_package_become: no
+data_science_base_os_dependent_pyqt5_package_name: pyqt5
