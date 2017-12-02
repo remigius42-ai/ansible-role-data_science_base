@@ -17,7 +17,7 @@
 
 - name: Install dependencies of Spyder
   become: '{{ data_science_base_os_dependent_package_become }}'
-  apt:
+  package:
     name: '{{ data_science_base_os_dependent_pyqt5_package_name }}'
 
 - name: Install spyder notebook
