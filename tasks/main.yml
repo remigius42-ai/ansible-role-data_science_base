@@ -5,12 +5,25 @@
     - '{{ ansible_os_family }}.yml'
     - 'default.yml'
 
+- name: Ensure required non-Python packages are installed
+  become: '{{ data_science_base_os_dependent_package_become }}'
+  package:
+    name: '{{ item }}'
+  with_items:
+    - 'git'
+
+# - name: Ensure required Python packages are installed
+#   become: '{{ data_science_base_os_dependent_package_become }}'
+#   package:
+#     name: '{{ item }}'
+#   with_items: '{{ data_science_base_os_dependent_pip_packages }}'
+
 - name: Add Anaconda to sudoers path
-  become: yes
+  become: 'yes'
   lineinfile:
     path: /etc/sudoers
     regexp: 'secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"'
-    backrefs: yes
+    backrefs: 'yes'
     line: 'Defaults	secure_path="/usr/local/anaconda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"'
     validate: '/usr/sbin/visudo -cf %s'
   when: data_science_base_anaconda_make_sys_default
@@ -21,27 +34,28 @@
     name: '{{ data_science_base_os_dependent_pyqt5_package_name }}'
 
 - name: Install spyder notebook
-  become: yes
+  become: 'yes'
   command: '{{anaconda_link_dir}}/bin/conda install spyder-notebook -c spyder-ide'
 
 - name: Install keras
-  become: yes
+  become: 'yes'
   command: '{{anaconda_link_dir}}/bin/conda install -y keras'
 
-#- name: Install sklearn_pandas
-#  become: yes
-#  pip:
-#    name: sklearn-pandas
-  
+# - name: Install sklearn_pandas
+#   become: yes
+#   pip:
+#     name: sklearn-pandas
+
 - name: Install Graphviz binaries
   become: '{{ data_science_base_os_dependent_package_become }}'
   package:
     name: graphviz
 
 - name: Install Graphviz python bindings
-  become: yes
+  become: 'yes'
   pip:
     name: graphviz
+    executable: '{{ anaconda_link_dir }}/bin/pip'
 
 - name: Configure Jupyter
   import_tasks: jupyter.yml

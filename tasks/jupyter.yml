@@ -8,25 +8,27 @@
   lineinfile:
     path: '{{ ansible_env.HOME }}/.jupyter/jupyter_notebook_config.py'
     regexp: '#c\.NotebookApp\.ip = ''localhost'''
-    backrefs: yes
+    backrefs: 'yes'
     line: 'c.NotebookApp.ip = ''0.0.0.0'''
-    backup: yes
+    backup: 'yes'
+
 
 - name: Install jupyter_contrib_nbextensions for pep8 and spell checking
-  become: yes
+  become: 'yes'
   shell: '{{ anaconda_bin_path }}/conda install -c conda-forge -y jupyter_contrib_nbextensions'
 
 - name: Install autopep8 for pep8 checking with jupyter_contrib_nbextensions
-  become: yes
+  become: 'yes'
   pip:
     name: autopep8
+    executable: '{{ anaconda_bin_path }}/pip'
 
 - name: Ensure configuration directory for jupyter_contrib_nbextensions exists
   file:
     path: '{{ ansible_env.HOME }}/.jupyter/nbconfig'
     state: directory
     mode: 0755
-    
+
 - name: Configure jupyter_contrib_nbextensions
   copy:
     src: files/jupyter_nbconfig_notebook.json
@@ -48,14 +50,15 @@
 #       c.FileContentsManager.pre_save_hook = jupyter_save_hooks.pre_save_hook
 
 - name: Install nbdime for diff and merge of notebooks
-  become: yes
+  become: 'yes'
   pip:
     name: nbdime
+    executable: '{{ anaconda_bin_path }}/pip'
 
 - name: Activate nbdime system-wide
-  become: yes
-  shell: nbdime config-git --enable --system
+  become: 'yes'
+  command: '{{ anaconda_bin_path }}/nbdime config-git --enable --system'
 
 - name: Install RISE for live Jupyter notebook presentations
-  become: yes
-  shell: '{{ anaconda_bin_path }}/conda install -c damianavila82 -y rise'
+  become: 'yes'
+  command: '{{ anaconda_bin_path }}/conda install -c damianavila82 -y rise'
