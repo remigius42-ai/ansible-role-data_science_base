@@ -12,7 +12,6 @@
     line: 'c.NotebookApp.ip = ''0.0.0.0'''
     backup: 'yes'
 
-
 - name: Workaround - Install parso==0.1.0 for jupyter_contrib_nbextensions which conda seems unable to resolve
   become: 'yes'
   pip:
