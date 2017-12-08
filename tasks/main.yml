@@ -36,10 +36,14 @@
 - name: Install spyder notebook
   become: 'yes'
   command: '{{anaconda_link_dir}}/bin/conda install spyder-notebook -c spyder-ide'
+  args:
+    creates: '{{anaconda_link_dir}}/pkgs/spyder-notebook-*-py*/'
 
 - name: Install keras
   become: 'yes'
   command: '{{anaconda_link_dir}}/bin/conda install -y keras'
+  args:
+    creates: '{{anaconda_link_dir}}/pkgs/keras-*-py*/'
 
 # - name: Install sklearn_pandas
 #   become: yes

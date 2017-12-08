@@ -20,7 +20,9 @@
 
 - name: Install jupyter_contrib_nbextensions for pep8 and spell checking
   become: 'yes'
-  shell: '{{ anaconda_bin_path }}/conda install -c conda-forge -y jupyter_contrib_nbextensions'
+  command: '{{ anaconda_bin_path }}/conda install -c conda-forge -y jupyter_contrib_nbextensions'
+  args:
+    creates: '{{ anaconda_bin_path }}/jupyter-contrib-nbextension'
 
 - name: Install autopep8 for pep8 checking with jupyter_contrib_nbextensions
   become: 'yes'
@@ -60,10 +62,23 @@
     name: nbdime
     executable: '{{ anaconda_bin_path }}/pip'
 
+- name: Check if nbdime is already enabled system-wide
+  lineinfile:
+    line: '*.ipynb diff=jupyternotebook'
+    dest: /etc/gitattributes
+    state: present
+  check_mode: 'yes'
+  register: data_science_base_nbdime_not_enabled
+
 - name: Activate nbdime system-wide
   become: 'yes'
   command: '{{ anaconda_bin_path }}/nbdime config-git --enable --system'
+  when: data_science_base_nbdime_not_enabled.changed
+  tags:
+    - skip_ansible_lint
 
 - name: Install RISE for live Jupyter notebook presentations
   become: 'yes'
   command: '{{ anaconda_bin_path }}/conda install -c damianavila82 -y rise'
+  args:
+    creates: '{{ anaconda_bin_path}}/../pkgs/rise-*-py*/'
