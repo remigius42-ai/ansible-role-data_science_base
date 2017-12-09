@@ -22,7 +22,12 @@ before_install:
       virtualenv venv -p python
       source venv/bin/activate
     fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qq python-pip; fi
+  - >-
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      sudo apt-get -qq update
+      sudo apt-get install -qq python-pip
+      pip install molecule docker-pi
+    fi
 
 install:
   # Install ansible
@@ -40,11 +45,12 @@ install:
 script:
   # Basic role syntax check
   - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then molecule test; fi
   # Install role
   # Dirty hack to patch issue in anaconda role: ansible_system evaluates to Darwin
   #   instead of MacOSX and is overridden with --extra-vars to match the installer name.
   - echo $PATCH_ANSIBLE_SYSTEM_FOR_OS_X
-  - ansible-playbook tests/test.yml -i tests/inventory $PATCH_ANSIBLE_SYSTEM_FOR_OS_X
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ansible-playbook tests/test.yml -i tests/inventory $PATCH_ANSIBLE_SYSTEM_FOR_OS_X; fi
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
