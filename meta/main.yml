@@ -39,3 +39,4 @@ dependencies:
     anaconda_python_ver: '{{ data_science_base_anaconda_python_ver }}'
     anaconda_timeout_seconds: '{{ data_science_base_anaconda_timeout_seconds }}'
     anaconda_make_sys_default: '{{ data_science_base_anaconda_make_sys_default }}'
+    anaconda_pkg_update: '{{ data_science_base_anaconda_pkg_update }}'
