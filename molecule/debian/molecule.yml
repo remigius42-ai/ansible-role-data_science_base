@@ -1,0 +1,22 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: debian_8_jessie
+    image: debian:8
+  - name: debian_9_stretch
+    image: debian:9
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+scenario:
+  name: debian
+verifier:
+  name: testinfra
+  lint:
+    name: flake8
