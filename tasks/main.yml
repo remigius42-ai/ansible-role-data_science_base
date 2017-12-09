@@ -31,7 +31,8 @@
 - name: Install dependencies of Spyder
   become: '{{ data_science_base_os_dependent_package_become }}'
   package:
-    name: '{{ data_science_base_os_dependent_pyqt5_package_name }}'
+    name: '{{ item }}'
+  with_items: '{{ data_science_base_os_dependent_pyqt5_package_names }}'
 
 - name: Install spyder notebook
   become: 'yes'
