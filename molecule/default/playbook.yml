@@ -2,5 +2,5 @@
 - name: Converge
   hosts: all
   roles:
-    - role: remigius42.data_science_base
+    - role: ansible-role-data_science_base
       data_science_base_anaconda_pkg_update: 'False'
