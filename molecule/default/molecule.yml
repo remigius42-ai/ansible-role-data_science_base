@@ -6,8 +6,10 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: instance
-    image: centos:7
+  - name: ubuntu_16_04
+    image: ubuntu:16.04
+  - name: ubuntu_17_10
+    image: ubuntu:17.10
 provisioner:
   name: ansible
   lint:
