@@ -1,6 +1,7 @@
 ---
 - name: Generate Jupyter config
-  command: '{{ anaconda_bin_path }}/jupyter notebook --generate-config'
+  command: '{{ anaconda_bin_path }}/jupyter notebook --generate-config --allow-root'
+  # allow root prevents issues when testing with docker, if the container user is root
   args:
     creates: '{{ ansible_env.HOME }}/.jupyter/jupyter_notebook_config.py'
 
@@ -62,18 +63,25 @@
     name: nbdime
     executable: '{{ anaconda_bin_path }}/pip'
 
+- name: Check if /etc/gitattributes exists
+  stat:
+    path: /etc/gitattributes
+  register: data_science_base_system_gitattributes
+
 - name: Check if nbdime is already enabled system-wide
   lineinfile:
-    line: '*.ipynb diff=jupyternotebook'
+    regexp: '^\*\.ipynb\s+diff=jupternotebook'
+    line: 'line is not going to be actually replaced, only checked'
     dest: /etc/gitattributes
-    state: present
+    state: absent
   check_mode: 'yes'
   register: data_science_base_nbdime_not_enabled
+  when: data_science_base_system_gitattributes.stat.exists
 
 - name: Activate nbdime system-wide
   become: 'yes'
   command: '{{ anaconda_bin_path }}/nbdime config-git --enable --system'
-  when: data_science_base_nbdime_not_enabled.changed
+  when: not data_science_base_system_gitattributes.stat.exists or data_science_base_nbdime_not_enabled.changed
   tags:
     - skip_ansible_lint
 

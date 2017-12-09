@@ -3,3 +3,4 @@ data_science_base_anaconda_ver: '5.0.0'
 data_science_base_anaconda_python_ver: 3
 data_science_base_anaconda_timeout_seconds: 1200
 data_science_base_anaconda_make_sys_default: 'True'
+data_science_base_anaconda_pkg_update: 'True'
