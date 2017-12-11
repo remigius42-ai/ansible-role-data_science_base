@@ -1,0 +1,3 @@
+---
+data_science_base_os_dependent_package_become: 'yes'
+data_science_base_os_dependent_pyqt5_package_names: [qt5-qtbase]
