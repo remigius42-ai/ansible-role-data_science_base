@@ -15,11 +15,7 @@ provisioner:
   lint:
     name: ansible-lint
 scenario:
-  name: default
-  test_sequence:
-    - lint
-    - dependency
-    - syntax
+  name: ubuntu
 verifier:
   name: testinfra
   lint:
