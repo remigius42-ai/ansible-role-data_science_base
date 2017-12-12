@@ -1,13 +1,19 @@
 ---
 language: python
+python: "2.7"
 
 sudo: required
 
+os: linux
+
+env:
+  - DISTRIBUTION=Default
+  - DISTRIBUTION=Debian
+  - DISTRIBUTION=CentOS
+  - DISTRIBUTION=Fedora
+
 matrix:
   include:
-    - os: linux
-      python: "2.7"
-      env: PATCH_ANSIBLE_SYSTEM_FOR_OS_X=
     - os: osx
       language: generic
       env: PATCH_ANSIBLE_SYSTEM_FOR_OS_X="--extra-vars={\"ansible_system\":\"MacOSX\",\"data_science_base_anaconda_make_sys_default\":false}"
@@ -37,7 +43,7 @@ install:
   - ansible --version
 
 script:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then molecule test --all; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then molecule test --scenario-name $DISTRIBUTION; fi
   # Dirty hack to patch issue in anaconda role: ansible_system evaluates to Darwin
   #   instead of MacOSX and is overridden with --extra-vars to match the installer name.
   - echo $PATCH_ANSIBLE_SYSTEM_FOR_OS_X
