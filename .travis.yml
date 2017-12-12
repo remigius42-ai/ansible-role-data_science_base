@@ -7,10 +7,10 @@ sudo: required
 os: linux
 
 env:
-  - DISTRIBUTION=Default
-  - DISTRIBUTION=Debian
-  - DISTRIBUTION=CentOS
-  - DISTRIBUTION=Fedora
+  - DISTRIBUTION=default
+  - DISTRIBUTION=debian
+  - DISTRIBUTION=centos
+  - DISTRIBUTION=fedora
 
 matrix:
   include:
