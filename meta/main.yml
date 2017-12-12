@@ -10,19 +10,23 @@ galaxy_info:
   platforms:
     - name: EL
       versions:
-        - all
+        - 6
+        - 7
     - name: Fedora
       versions:
-        - all
+        - 26
+        - 27
     - name: Debian
       versions:
-        - all
+        - jessie
+        - stretch
     - name: Ubuntu
       versions:
-        - all
-    - name: Archlinux
+        - xenial
+        - artful
+    - name: MacOSX
       versions:
-        - all
+        - 10.12
 
   galaxy_tags:
     - anaconda
