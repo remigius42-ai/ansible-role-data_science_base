@@ -30,8 +30,8 @@ galaxy_info:
     - jupyter
     - spyder
     - python
-    - data-science
-    - data_science
+    - datascience
+    - science
 
 dependencies:
   - role: andrewrothstein.anaconda
