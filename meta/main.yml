@@ -39,7 +39,7 @@ galaxy_info:
 
 dependencies:
   - role: andrewrothstein.anaconda
-    version: v4.0.0
+    version: v4.0.3
     anaconda_ver: '{{ data_science_base_anaconda_ver }}'
     anaconda_python_ver: '{{ data_science_base_anaconda_python_ver }}'
     anaconda_timeout_seconds: '{{ data_science_base_anaconda_timeout_seconds }}'
