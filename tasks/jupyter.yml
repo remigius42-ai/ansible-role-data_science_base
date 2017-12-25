@@ -44,13 +44,6 @@
 
       c.FileContentsManager.pre_save_hook = jupyter_pre_save_hook
 
-# - name: Enable jupyter save hooks
-#   blockinfile:
-#     path: '{{ ansible_env.HOME }}/.jupyter/jupyter_notebook_config.py'
-#     block: |
-#       import jupyter_save_hooks.py
-#       c.FileContentsManager.pre_save_hook = jupyter_save_hooks.pre_save_hook
-
 - name: Install nbdime for diff and merge of notebooks
   become: 'yes'
   pip:

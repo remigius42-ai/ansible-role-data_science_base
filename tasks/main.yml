@@ -13,12 +13,6 @@
   with_items:
     - 'git'
 
-# - name: Ensure required Python packages are installed
-#   become: '{{ data_science_base_os_dependent_package_become }}'
-#   package:
-#     name: '{{ item }}'
-#   with_items: '{{ data_science_base_os_dependent_pip_packages }}'
-
 - name: Add Anaconda to sudoers path
   become: 'yes'
   lineinfile:
@@ -46,11 +40,6 @@
   command: '{{anaconda_link_dir}}/bin/conda install spyder-notebook -c spyder-ide'
   args:
     creates: '{{anaconda_link_dir}}/pkgs/spyder-notebook-*-py*/'
-
-# - name: Install sklearn_pandas
-#   become: yes
-#   pip:
-#     name: sklearn-pandas
 
 - name: Install Graphviz binaries
   become: '{{ data_science_base_os_dependent_package_become }}'
